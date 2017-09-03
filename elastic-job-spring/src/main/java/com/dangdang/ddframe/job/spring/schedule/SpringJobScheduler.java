@@ -18,6 +18,7 @@
 package com.dangdang.ddframe.job.spring.schedule;
 
 import com.dangdang.ddframe.job.api.JobScheduler;
+import com.dangdang.ddframe.job.api.config.JobConfiguration;
 import com.dangdang.ddframe.job.api.listener.ElasticJobListener;
 import com.dangdang.ddframe.job.spring.namespace.parser.common.AbstractJobConfigurationDto;
 import com.dangdang.ddframe.job.spring.util.AopTargetUtils;
@@ -43,7 +44,15 @@ public class SpringJobScheduler extends JobScheduler implements ApplicationConte
     public SpringJobScheduler(final CoordinatorRegistryCenter coordinatorRegistryCenter, final AbstractJobConfigurationDto jobConfigurationDto, final ElasticJobListener[] elasticJobListeners) {
         super(coordinatorRegistryCenter, jobConfigurationDto.toJobConfiguration(), getTargetElasticJobListeners(elasticJobListeners));
     }
-    
+
+    public SpringJobScheduler(final CoordinatorRegistryCenter coordinatorRegistryCenter, final JobConfiguration jobConfig) {
+        super(coordinatorRegistryCenter, jobConfig);
+    }
+
+    public SpringJobScheduler(final CoordinatorRegistryCenter coordinatorRegistryCenter, final JobConfiguration jobConfig, final ElasticJobListener... elasticJobListeners) {
+        super(coordinatorRegistryCenter, jobConfig, getTargetElasticJobListeners(elasticJobListeners));
+    }
+
     private static ElasticJobListener[] getTargetElasticJobListeners(final ElasticJobListener[] elasticJobListeners) {
         final ElasticJobListener[] result = new ElasticJobListener[elasticJobListeners.length];
         for (int i = 0; i < elasticJobListeners.length; i++) {
